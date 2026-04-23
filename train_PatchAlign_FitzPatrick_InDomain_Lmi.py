@@ -195,7 +195,7 @@ def train_model_lmi(label, dataloaders, device, dataset_sizes, model, proj_head,
     train_step = 0
     leading_epoch = 0
 
-    text_embeddings = np.load('./text_embeddings_3_large_consecutive_averaged.npy')
+    text_embeddings = np.load('/kaggle/working/PatchAlign24/text_embeddings_3_large_consecutive_averaged.npy')
     text_embeddings = np.array(text_embeddings, dtype=np.double)
 
     for epoch in range(num_epochs):
