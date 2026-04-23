@@ -409,10 +409,10 @@ def custom_load_lmi(
         val_dir='',
         label='low',
         dataset_name='fitzpatrick',
-        image_dir='C:\\Users\\asose\\OneDrive\\Desktop\\Senge Research\\datasets\\fitzpatrick17k\\data\\finalfitz17k\\'
+        image_dir='/kaggle/input/datasets/njihsenge/fitzpatrick17k/fitzpatrick17k/data/finalfitz17k'
 ):
     if dataset_name == 'ddi':
-        image_dir = 'C:\\Users\\asose\\OneDrive\\Desktop\\Senge Research\\datasets\\ddidiversedermatologyimages\\'
+        image_dir = '/kaggle/input/datasets/njihsenge/ddidiversedermatologyimages'
 
     val   = pd.read_csv(val_dir)
     train = pd.read_csv(train_dir)
@@ -506,9 +506,9 @@ device = device_global
 # Load dataset
 # ------------------------------------------------------------------
 if dev_mode == 'dev':
-    df = pd.read_csv('fitzpatrick17k_known_code.csv').sample(1000)
+    df = pd.read_csv('/kaggle/working/PatchAlign24/fitzpatrick17k_known_code.csv').sample(1000)
 else:
-    df = pd.read_csv('fitzpatrick17k_known_code.csv')
+    df = pd.read_csv('/kaggle/working/PatchAlign24/fitzpatrick17k_known_code.csv')
 
 # Fix column name if needed
 if 'fitzpatrick_scale' in df.columns and 'fitzpatrick' not in df.columns:
