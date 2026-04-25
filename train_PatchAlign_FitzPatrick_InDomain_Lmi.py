@@ -483,7 +483,7 @@ print('custom_load_lmi defined.')
 # ============================================================
 #  Configuration — edit before running
 # ============================================================
-n_epochs     = 20           # number of training epochs
+n_epochs     = 2           # number of training epochs
 dev_mode     = 'full'       # 'dev' (1000-sample quick test) or 'full'
 dataset_name = 'fitzpatrick'
 model_name   = 'PATCHALIGN_FITZ_INDOMAIN_LMI'
@@ -505,6 +505,8 @@ device = device_global
 # ------------------------------------------------------------------
 # Load dataset
 # ------------------------------------------------------------------
+script_dir = os.path.dirname(os.path.abspath(__file__))
+
 if dev_mode == 'dev':
     df = pd.read_csv('/kaggle/working/PatchAlign24/fitzpatrick17k_known_code.csv').sample(1000)
 else:
@@ -551,8 +553,8 @@ for holdout_set in [domain]:
         test['low']  = test['label'].astype('category').cat.codes
 
     level = 'high'
-    train_path = f'temp_train_{model_name}.csv'
-    test_path  = f'temp_test_{model_name}.csv'
+    train_path = os.path.join(script_dir, f'temp_train_{model_name}.csv')
+    test_path  = os.path.join(script_dir, f'temp_test_{model_name}.csv')
     train.to_csv(train_path, index=False)
     test.to_csv(test_path,  index=False)
 
@@ -614,10 +616,10 @@ for holdout_set in [domain]:
         )
         print('Training Complete')
 
-        torch.save(model_ft.state_dict(), f'model_path_{model_name}_{n_epochs}_{label}_{holdout_set}.pth')
-        torch.save(model_ft,              f'model_path_{model_name}_{n_epochs}_{label}_{holdout_set}.pt')
-        torch.save(proj_head.state_dict(),f'proj_head_{model_name}_{n_epochs}_{label}_{holdout_set}.pth')
-        training_results.to_csv(f'training_{model_name}_{n_epochs}_{label}_{holdout_set}.csv')
+        torch.save(model_ft.state_dict(), os.path.join(script_dir, f'model_path_{model_name}_{n_epochs}_{label}_{holdout_set}.pth'))
+        torch.save(model_ft,              os.path.join(script_dir, f'model_path_{model_name}_{n_epochs}_{label}_{holdout_set}.pt'))
+        torch.save(proj_head.state_dict(),os.path.join(script_dir, f'proj_head_{model_name}_{n_epochs}_{label}_{holdout_set}.pth'))
+        training_results.to_csv(os.path.join(script_dir, f'training_{model_name}_{n_epochs}_{label}_{holdout_set}.csv'))
         print('Model and results saved.')
 
         # ------------------------------------------------------------------
@@ -664,7 +666,7 @@ for holdout_set in [domain]:
             'prediction_probability': flatten(p_list),
             'prediction':            flatten(prediction_list)
         })
-        df_x.to_csv(f'results_{model_name}_{n_epochs}_{label}_{holdout_set}.csv', index=False)
+        df_x.to_csv(os.path.join(script_dir, f'results_{model_name}_{n_epochs}_{label}_{holdout_set}.csv'), index=False)
         print(f'\n Accuracy: {acc:.4f}   Balanced Accuracy: {balanced_acc:.4f} \n')
 
 print('Done.')
