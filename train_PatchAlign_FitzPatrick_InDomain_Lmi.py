@@ -505,7 +505,7 @@ device = device_global
 # ------------------------------------------------------------------
 # Load dataset
 # ------------------------------------------------------------------
-script_dir = os.path.dirname(os.path.abspath(__file__))
+script_dir = '/kaggle/working/PatchAlign24'
 
 if dev_mode == 'dev':
     df = pd.read_csv('/kaggle/working/PatchAlign24/fitzpatrick17k_known_code.csv').sample(1000)
@@ -616,9 +616,9 @@ for holdout_set in [domain]:
         )
         print('Training Complete')
 
-        torch.save(model_ft.state_dict(), os.path.join(script_dir, f'model_path_{model_name}_{n_epochs}_{label}_{holdout_set}.pth'))
-        torch.save(model_ft,              os.path.join(script_dir, f'model_path_{model_name}_{n_epochs}_{label}_{holdout_set}.pt'))
-        torch.save(proj_head.state_dict(),os.path.join(script_dir, f'proj_head_{model_name}_{n_epochs}_{label}_{holdout_set}.pth'))
+        torch.save(model_ft.state_dict(), f'model_path_{model_name}_{n_epochs}_{label}_{holdout_set}.pth')
+        torch.save(model_ft,              f'model_path_{model_name}_{n_epochs}_{label}_{holdout_set}.pt')
+        torch.save(proj_head.state_dict(),f'proj_head_{model_name}_{n_epochs}_{label}_{holdout_set}.pth')
         training_results.to_csv(os.path.join(script_dir, f'training_{model_name}_{n_epochs}_{label}_{holdout_set}.csv'))
         print('Model and results saved.')
 

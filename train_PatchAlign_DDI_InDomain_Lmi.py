@@ -193,7 +193,7 @@ def train_model_lmi(label, dataloaders, device, dataset_sizes, model, proj_head,
     train_step = 0
     leading_epoch = 0
 
-    text_embeddings = np.load('./text_embeddings_3_large_consecutive_averaged.npy')
+    text_embeddings = np.load('/kaggle/working/PatchAlign24/text_embeddings_3_large_consecutive_averaged.npy')
     text_embeddings = np.array(text_embeddings, dtype=np.double)
 
     for epoch in range(num_epochs):
@@ -402,10 +402,10 @@ def custom_load_lmi(
         val_dir='',
         label='high',
         dataset_name='ddi',
-        image_dir='C:\\Users\\asose\\OneDrive\\Desktop\\Senge Research\\datasets\\fitzpatrick17k\\data\\finalfitz17k\\'
+        image_dir='/kaggle/input/datasets/njihsenge/fitzpatrick17k/fitzpatrick17k/data/finalfitz17k'
 ):
     if dataset_name == 'ddi':
-        image_dir = 'C:\\Users\\asose\\OneDrive\\Desktop\\Senge Research\\datasets\\ddidiversedermatologyimages\\'
+        image_dir = '/kaggle/input/datasets/njihsenge/ddidiversedermatologyimages'
 
     val   = pd.read_csv(val_dir)
     train = pd.read_csv(train_dir)
@@ -485,13 +485,16 @@ print(f'Config | dataset={dataset_name} | model={model_name} | epochs={n_epochs}
 print(f'CUDA available: {torch.cuda.is_available()}')
 device = device_global
 
+
+script_dir = "/kaggle/working/PatchAlign24"
+
 # ------------------------------------------------------------------
 # Load dataset
 # ------------------------------------------------------------------
 if dev_mode == 'dev':
-    df = pd.read_csv('ddi_metadata_code.csv').sample(300)
+    df = pd.read_csv('/kaggle/working/PatchAlign24/ddi_metadata_code.csv').sample(300)
 else:
-    df = pd.read_csv('ddi_metadata_code.csv')
+    df = pd.read_csv('/kaggle/working/PatchAlign24/ddi_metadata_code.csv')
 
 domain = ['random_holdout', 'a12', 'a34', 'a56'][domain_index]
 print(f'Domain: {domain}')
@@ -507,8 +510,8 @@ for holdout_set in [domain]:
         )
 
     level = 'high'
-    train_path = f'temp_train_{model_name}.csv'
-    test_path  = f'temp_test_{model_name}.csv'
+    train_path = os.path.join(script_dir, f'temp_train_{model_name}.csv')
+    test_path  = os.path.join(script_dir, f'temp_test_{model_name}.csv')
     train.to_csv(train_path, index=False)
     test.to_csv(test_path,  index=False)
 
@@ -618,7 +621,7 @@ for holdout_set in [domain]:
             'prediction_probability': flatten(p_list),
             'prediction':             flatten(prediction_list)
         })
-        df_x.to_csv(f'results_{model_name}_{n_epochs}_{label}_{holdout_set}.csv', index=False)
+        df_x.to_csv(os.path.join(script_dir, f'results_{model_name}_{n_epochs}_{label}_{holdout_set}.csv'), index=False)
         print(f'\n Accuracy: {acc:.4f}   Balanced Accuracy: {balanced_acc:.4f} \n')
 
 print('Done.')
