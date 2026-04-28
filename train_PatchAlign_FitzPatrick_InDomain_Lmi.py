@@ -483,7 +483,7 @@ print('custom_load_lmi defined.')
 # ============================================================
 #  Configuration — edit before running
 # ============================================================
-n_epochs     = 20           # number of training epochs
+n_epochs     = 1           # number of training epochs
 dev_mode     = 'full'       # 'dev' (1000-sample quick test) or 'full'
 dataset_name = 'fitzpatrick'
 model_name   = 'PATCHALIGN_FITZ_INDOMAIN_LMI'
